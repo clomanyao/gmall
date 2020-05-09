@@ -16,5 +16,8 @@
         <module>gmall-order</module>
         <module>gmall-product</module>
         <module>gmall-ware</module>
+        <module>renren-fast</module>
+        <module>renren-generator</module>
+        <module>gmall-common</module>
     </modules>
 </project>
