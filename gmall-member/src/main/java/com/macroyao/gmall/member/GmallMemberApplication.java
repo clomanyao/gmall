@@ -1,4 +1,4 @@
-package com.macroyao.gmall.lmember;
+package com.macroyao.gmall.member;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
