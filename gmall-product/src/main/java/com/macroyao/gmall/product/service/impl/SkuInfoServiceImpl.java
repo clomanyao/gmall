@@ -1,14 +1,16 @@
 package com.macroyao.gmall.product.service.impl;
 
-import org.springframework.stereotype.Service;
-import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
+import com.macroyao.common.utils.PageUtils;
+import com.macroyao.common.utils.Query;
 import com.macroyao.gmall.product.dao.SkuInfoDao;
 import com.macroyao.gmall.product.entity.SkuInfoEntity;
 import com.macroyao.gmall.product.service.SkuInfoService;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 
 @Service("skuInfoService")

@@ -1,6 +1,7 @@
 package com.macroyao.gmall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.macroyao.common.utils.PageUtils;
 import com.macroyao.gmall.product.entity.SkuImagesEntity;
 
 import java.util.Map;

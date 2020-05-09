@@ -1,5 +1,7 @@
 package com.macroyao.gmall.product.controller;
 
+import com.macroyao.common.utils.PageUtils;
+import com.macroyao.common.utils.R;
 import com.macroyao.gmall.product.entity.AttrAttrgroupRelationEntity;
 import com.macroyao.gmall.product.service.AttrAttrgroupRelationService;
 import org.springframework.beans.factory.annotation.Autowired;

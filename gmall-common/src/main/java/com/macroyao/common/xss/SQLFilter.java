@@ -8,7 +8,7 @@
 
 package com.macroyao.common.xss;
 
-import io.renren.common.exception.RRException;
+import com.macroyao.common.utils.RRException;
 import org.apache.commons.lang.StringUtils;
 
 /**
