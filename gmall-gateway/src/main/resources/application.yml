@@ -1,0 +1,30 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: test_route01
+          uri: https://www.baidu.com
+          predicates:
+            - Query=url,baidu
+        - id: test_route02
+          uri: https://github.com
+          predicates:
+            - Query=url,github
+
+        - id: product_router    # 精确路由写到上面，这样就优先级较高，优先匹配
+          uri: lb://gmall-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*),/$\{segment}
+
+# product_router URL: http://localhost:88/api/product/category/list/tree => http://localhost:10000/product/category/list/tree
+        - id: admin_router
+          uri: lb://renren-fast  #负载均衡，在注册中心中找到renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*),/renren-fast/$\{segment}
+
+
+# 前端项目(/api/**),http://localhost:88/api/captcha.jpg => http://localhost:8080/api/captcha.jpg =>http://localhost:8080/renren-fast/captcha.jpg

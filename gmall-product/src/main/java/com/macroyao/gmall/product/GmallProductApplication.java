@@ -2,6 +2,7 @@ package com.macroyao.gmall.product;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /*
 * 整合mybatisplus
@@ -13,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 *       2 mybatisplus配置(主键自增id)
 * */
 @SpringBootApplication
+@EnableDiscoveryClient
 public class GmallProductApplication {
 
     public static void main(String[] args) {

@@ -4,11 +4,24 @@ spring:
     password: 123
     #driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://192.168.195.131:3306/gmall_pms
+  application:
+    name: gmall-product
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.56.1:8848
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
     db-config:
       id-type: auto
+#      logic-delete-field: showStatus #全局逻辑删除字段值 3.3.0开始支持，详情看下面
+#      logic-delete-value: 0 # 逻辑未删除值(默认为 1)
+#      logic-not-delete-value: 1 # 逻辑已删除值(默认为 0)
 server:
   port: 10000
+logging:
+  level:
+    com.macroyao.gmall.product:
+      debug

@@ -12,6 +12,9 @@ public class GmallOrderApplicationTests {
 
     @Test
     public void contextLoads() {
+        Integer a=0;
+        System.out.println(a);
+        System.out.println(a==null);
     }
 
 }
