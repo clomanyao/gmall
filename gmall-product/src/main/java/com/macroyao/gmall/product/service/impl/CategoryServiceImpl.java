@@ -7,9 +7,15 @@ import com.macroyao.common.utils.PageUtils;
 import com.macroyao.common.utils.Query;
 import com.macroyao.gmall.product.dao.CategoryDao;
 import com.macroyao.gmall.product.entity.CategoryEntity;
+import com.macroyao.gmall.product.service.CategoryBrandRelationService;
 import com.macroyao.gmall.product.service.CategoryService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -17,6 +23,9 @@ import java.util.stream.Collectors;
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -65,5 +74,30 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 (x1, x2) -> x1.getSort() == null ? 0 : x1.getSort() - (x2.getSort() == null ? 0 : x2.getSort())
         ).collect(Collectors.toList());
         return list;
+    }
+
+    @Override
+    public List<Long> getPath(Long catelogId) {
+        List<Long> path = getPath(catelogId,new ArrayList<>());
+        Collections.reverse(path);
+        return path;
+    }
+
+    @Transactional
+    @Override
+    public void updateDetailById(CategoryEntity category) {
+        this.updateById(category);
+        if(StringUtils.isNotBlank(category.getName())){
+            categoryBrandRelationService.updateGategoryName(category.getCatId(),category.getName());
+        }
+    }
+
+    private List<Long> getPath(Long catelogId, List<Long> path) {
+        CategoryEntity categoryEntity = this.getById(catelogId);
+        path.add(categoryEntity.getCatId());
+        if (categoryEntity != null && categoryEntity.getParentCid() != 0) {
+            getPath(categoryEntity.getParentCid(), path);
+        }
+        return path;
     }
 }

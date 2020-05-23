@@ -3,7 +3,9 @@ package com.macroyao.gmall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.macroyao.common.utils.PageUtils;
 import com.macroyao.gmall.product.entity.AttrAttrgroupRelationEntity;
+import com.macroyao.gmall.product.vo.AttrGroupRelationVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +18,9 @@ import java.util.Map;
 public interface AttrAttrgroupRelationService extends IService<AttrAttrgroupRelationEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void deleteBatch(List<AttrAttrgroupRelationEntity> entities);
+
+    void saveAttrRelation(List<AttrGroupRelationVo> vos);
 }
 

@@ -2,14 +2,28 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: test_route01
-          uri: https://www.baidu.com
+#        - id: test_route01
+#          uri: https://www.baidu.com
+#          predicates:
+#            - Query=url,baidu
+#        - id: test_route02
+#          uri: https://github.com
+#          predicates:
+#            - Query=url,github
+
+        - id: member_router    # 精确路由写到上面，这样就优先级较高，优先匹配
+          uri: lb://gmall-member
           predicates:
-            - Query=url,baidu
-        - id: test_route02
-          uri: https://github.com
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*),/$\{segment}
+
+        - id: third_party_router    # 精确路由写到上面，这样就优先级较高，优先匹配
+          uri: lb://gmall-third-party
           predicates:
-            - Query=url,github
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/thirdparty/(?<segment>/?.*),/$\{segment}
 
         - id: product_router    # 精确路由写到上面，这样就优先级较高，优先匹配
           uri: lb://gmall-product

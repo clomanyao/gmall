@@ -4,6 +4,7 @@ import com.macroyao.common.utils.PageUtils;
 import com.macroyao.common.utils.R;
 import com.macroyao.gmall.product.entity.SkuInfoEntity;
 import com.macroyao.gmall.product.service.SkuInfoService;
+import com.macroyao.gmall.product.vo.skuinfo.SkuInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,8 +54,8 @@ public class SkuInfoController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:skuinfo:save")
-    public R save(@RequestBody SkuInfoEntity skuInfo){
-		skuInfoService.save(skuInfo);
+    public R save(@RequestBody SkuInfoVo skuInfo){
+		skuInfoService.saveSkuInfo(skuInfo);
 
         return R.ok();
     }

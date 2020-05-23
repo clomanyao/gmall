@@ -40,6 +40,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.19</version>
         </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
         <!--将服务加入注册中心，并且发现其他服务-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

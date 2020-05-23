@@ -1,10 +1,12 @@
 package com.macroyao.gmall.product.controller;
 
 import com.macroyao.common.utils.R;
+import com.macroyao.common.valid.group.AddGroup;
+import com.macroyao.common.valid.group.UpdateGroup;
 import com.macroyao.gmall.product.entity.CategoryEntity;
 import com.macroyao.gmall.product.service.CategoryService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +37,7 @@ public class CategoryController {
     public R list() {
         //查出所有的分类
         List<CategoryEntity> entities = categoryService.listWithTree();
-        return R.ok().put("entities", entities);
+        return R.ok().put("data", entities);
     }
 
 
@@ -47,7 +49,7 @@ public class CategoryController {
     public R info(@PathVariable("catId") Long catId) {
         CategoryEntity category = categoryService.getById(catId);
 
-        return R.ok().put("category", category);
+        return R.ok().put("data", category);
     }
 
     /**
@@ -55,12 +57,8 @@ public class CategoryController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:category:save")
-    public R save(@RequestBody CategoryEntity category) {
-        boolean b = false;
-        if (StringUtils.isNotBlank(category.getName())) {
-            b = categoryService.save(category);
-        }
-        return b ? R.ok() : R.error();
+    public R save(@RequestBody @Validated(value = {AddGroup.class}) CategoryEntity category) {
+        return categoryService.save(category)? R.ok() : R.error();
     }
 
     /**
@@ -68,7 +66,7 @@ public class CategoryController {
      */
     @RequestMapping("/update/sort")
     //@RequiresPermissions("product:category:update")
-    public R updateSort(@RequestBody CategoryEntity[] category) {
+    public R updateSort(@RequestBody @Validated(value = {UpdateGroup.class}) CategoryEntity[] category) {
         //System.out.println(category);
         return categoryService.updateBatchById(Arrays.asList(category))?R.ok():R.error();
     }
@@ -78,8 +76,9 @@ public class CategoryController {
      */
     @RequestMapping("/update")
     //@RequiresPermissions("product:category:update")
-    public R update(@RequestBody CategoryEntity category) {
-        return categoryService.updateById(category)?R.ok():R.error();
+    public R update(@RequestBody @Validated(value = {UpdateGroup.class}) CategoryEntity category) {
+        categoryService.updateDetailById(category);
+        return R.ok();
     }
 
     /**

@@ -2,8 +2,10 @@ package com.macroyao.gmall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.macroyao.common.utils.PageUtils;
+import com.macroyao.gmall.product.entity.BrandEntity;
 import com.macroyao.gmall.product.entity.CategoryBrandRelationEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +18,15 @@ import java.util.Map;
 public interface CategoryBrandRelationService extends IService<CategoryBrandRelationEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    List<CategoryBrandRelationEntity> queryById(Long brandId);
+
+    void saveDetail(CategoryBrandRelationEntity categoryBrandRelation);
+
+    void updateBrandName(Long brandId, String name);
+
+    void updateGategoryName(Long catId, String name);
+
+    List<BrandEntity> listBrandsBycatId(Long catId);
 }
 

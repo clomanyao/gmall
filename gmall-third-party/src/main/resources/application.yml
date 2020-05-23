@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: gmall-third-party
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.195.131:8848
+
+
+server:
+  port: 30000

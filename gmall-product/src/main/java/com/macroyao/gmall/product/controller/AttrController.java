@@ -2,9 +2,13 @@ package com.macroyao.gmall.product.controller;
 
 import com.macroyao.common.utils.PageUtils;
 import com.macroyao.common.utils.R;
-import com.macroyao.gmall.product.entity.AttrEntity;
+import com.macroyao.common.valid.group.AddGroup;
+import com.macroyao.common.valid.group.UpdateGroup;
 import com.macroyao.gmall.product.service.AttrService;
+import com.macroyao.gmall.product.vo.AttrRespVo;
+import com.macroyao.gmall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -24,26 +28,37 @@ public class AttrController {
     @Autowired
     private AttrService attrService;
 
-    /**
-     * 列表
-     */
-    @RequestMapping("/list")
+    @GetMapping("/{attrType}/list/{catelogId}")
     //@RequiresPermissions("product:attr:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = attrService.queryPage(params);
-
+    //@RequestParam把请求参数封装到map中  GET方法,拼接参数(?x=x&y=y&...)使用@RequestParam把请求参数封装到map中
+    public R listAttr(@RequestParam Map<String, Object> params,
+                      @PathVariable("catelogId") Long catelogId,
+                      @PathVariable("attrType") String attrType) {
+        PageUtils page = attrService.queryBaseAttrPage(params,catelogId,attrType);
         return R.ok().put("page", page);
     }
 
 
     /**
+     * 列表
+     */
+//    @PostMapping("/base/list/{catelogId}")
+//    //@RequiresPermissions("product:attr:list")
+//    public R list(@RequestBody Map<String, Object> params) {
+//        PageUtils page = attrService.queryPage(params);
+//
+//        return R.ok().put("page", page);
+//    }
+
+
+    /**
      * 信息
      */
+    //product/attr/info/1
     @RequestMapping("/info/{attrId}")
     //@RequiresPermissions("product:attr:info")
-    public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
-
+    public R info(@PathVariable("attrId") Long attrId) {
+        AttrRespVo attr = attrService.getAttrRespVoById(attrId);
         return R.ok().put("attr", attr);
     }
 
@@ -52,8 +67,8 @@ public class AttrController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:attr:save")
-    public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
+    public R save(@RequestBody @Validated(value = {AddGroup.class}) AttrVo attr) {
+        attrService.saveDetail(attr);
 
         return R.ok();
     }
@@ -63,9 +78,8 @@ public class AttrController {
      */
     @RequestMapping("/update")
     //@RequiresPermissions("product:attr:update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
-
+    public R update(@RequestBody @Validated(value = {UpdateGroup.class}) AttrVo attr) {
+        attrService.updateAttrVoById(attr);
         return R.ok();
     }
 
@@ -74,8 +88,8 @@ public class AttrController {
      */
     @RequestMapping("/delete")
     //@RequiresPermissions("product:attr:delete")
-    public R delete(@RequestBody Long[] attrIds){
-		attrService.removeByIds(Arrays.asList(attrIds));
+    public R delete(@RequestBody Long[] attrIds) {
+        attrService.removeByIds(Arrays.asList(attrIds));
         return R.ok();
     }
 

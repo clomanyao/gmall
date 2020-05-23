@@ -8,7 +8,9 @@ import com.macroyao.common.utils.Query;
 import com.macroyao.gmall.product.dao.SkuInfoDao;
 import com.macroyao.gmall.product.entity.SkuInfoEntity;
 import com.macroyao.gmall.product.service.SkuInfoService;
+import com.macroyao.gmall.product.vo.skuinfo.SkuInfoVo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -24,6 +26,12 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         );
 
         return new PageUtils(page);
+    }
+
+    @Transactional
+    @Override
+    public void saveSkuInfo(SkuInfoVo skuInfo) {
+
     }
 
 }

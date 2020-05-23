@@ -8,9 +8,13 @@ import com.macroyao.common.utils.Query;
 import com.macroyao.gmall.product.dao.AttrAttrgroupRelationDao;
 import com.macroyao.gmall.product.entity.AttrAttrgroupRelationEntity;
 import com.macroyao.gmall.product.service.AttrAttrgroupRelationService;
+import com.macroyao.gmall.product.vo.AttrGroupRelationVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("attrAttrgroupRelationService")
@@ -24,6 +28,22 @@ public class AttrAttrgroupRelationServiceImpl extends ServiceImpl<AttrAttrgroupR
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public void deleteBatch(List<AttrAttrgroupRelationEntity> entities) {
+        this.getBaseMapper().deleteBatch(entities);
+    }
+
+    @Override
+    public void saveAttrRelation(List<AttrGroupRelationVo> vos) {
+        List<AttrAttrgroupRelationEntity> relationEntities = vos.stream().map(vo -> {
+            AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
+            BeanUtils.copyProperties(vo, relationEntity);
+            relationEntity.setAttrSort(0);
+            return relationEntity;
+        }).collect(Collectors.toList());
+        this.saveBatch(relationEntities);
     }
 
 }
